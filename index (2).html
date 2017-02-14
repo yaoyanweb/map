@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body,
+		html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			font-family: "微软雅黑";
+		}
+
+		#allmap {
+			height: 500px;
+			width: 1000px;
+			overflow: hidden;
+			margin: 0 auto;
+			margin-top: 50px;
+		}
+
+		#result {
+			width: 100%;
+			font-size: 12px;
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		dl,
+		dt,
+		dd,
+		ul,
+		li {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		dt {
+			font-size: 14px;
+			font-family: "微软雅黑";
+			font-weight: bold;
+			border-bottom: 1px dotted #000;
+			padding: 5px 0 5px 5px;
+			margin: 5px 0;
+		}
+
+		dd {
+			padding: 5px 0 0 5px;
+		}
+
+		li {
+			line-height: 28px;
+		}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?2DxY5ycGl5C9hpMzGF5VjF6M8OaXp1Pm"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+	<title>带检索功能的信息窗口</title>
+</head>
+
+<body>
+	<div id="allmap">
+	</div>
+	<div id="result">
+		<input type="button" value="样式2" onclick="openInfoWindow2()" />
+	</div>
+	<script type="text/javascript">
+	// 百度地图API功能
+    var map = new BMap.Map('allmap');
+	var point = [121.617792,31.083402]
+    var poi = new BMap.Point(point[0],point[1]);
+    map.centerAndZoom(poi, 12);
+    map.enableScrollWheelZoom();
+    var marker = new BMap.Marker(poi); //创建marker对象
+    marker.enableDragging(); //marker可拖拽
+    marker.addEventListener("click", function(e){
+	    searchInfoWindow.open(marker);
+    })
+    map.addOverlay(marker); //在地图中添加marker
+	//样式2
+	var searchInfoWindow2 = new BMapLib.SearchInfoWindow(map, "信息框2内容", {
+		title: "信息框2", //标题
+		panel : "panel", //检索结果面板
+		enableAutoPan : true, //自动平移
+		searchTypes :[
+			BMAPLIB_TAB_SEARCH,   //周边检索
+			BMAPLIB_TAB_TO_HERE,  //到这里去
+			BMAPLIB_TAB_FROM_HERE //从这里出发
+		]
+	});
+	function openInfoWindow2() {
+		searchInfoWindow2.open(new BMap.Point(point[0],point[1]+0.00007));
+	}
+</script>
+</body>
+
+</html>
